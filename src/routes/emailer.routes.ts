@@ -9,6 +9,7 @@ const emailerService = new EmailerService;
 const emailerEvent = new EmailerEvent;
 
 emailerRoutes.post('/delayedEmail/', async function(req, res, next) {
+    const defaultDelay = 600000;
     emailerEvent.eventName = `Abandon(${req.body.to})`;
     const email: BaseEmail = req.body;
     email.from = process.env.SENDER_EMAIL as string;
@@ -16,7 +17,7 @@ emailerRoutes.post('/delayedEmail/', async function(req, res, next) {
     emailerEvent.handle(() => {
         emailerService.activeEmailer.email = email;
         emailerService.activeEmailer.SendEmail();
-    }, req.body.delay);
+    }, req.body.delay||defaultDelay);
 
     emailerEvent.start();
 
@@ -24,6 +25,7 @@ emailerRoutes.post('/delayedEmail/', async function(req, res, next) {
 });
 
 emailerRoutes.post('/stopDelayedEmail/', async function(req, res, next) {
+
     emailerEvent.eventName = `Abandon(${req.body.email})`;
     emailerEvent.suspend(() => { console.log(`${emailerEvent.eventName} Stopped.`) });
     res.json({message: "Abandon event stopped."})
