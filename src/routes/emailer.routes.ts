@@ -25,8 +25,8 @@ emailerRoutes.post('/delayedEmail/', async function(req, res, next) {
 });
 
 emailerRoutes.post('/stopDelayedEmail/', async function(req, res, next) {
-
     emailerEvent.eventName = `Abandon(${req.body.email})`;
     emailerEvent.suspend(() => { console.log(`${emailerEvent.eventName} Stopped.`) });
+
     res.json({message: "Abandon event stopped."})
 });
