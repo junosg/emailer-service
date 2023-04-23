@@ -3,7 +3,7 @@ import { Emailer } from "../../abstractions/emailer.abstract";
 
 const SendGridMail = require('@sendgrid/mail');
 
-export class SendGridEmailer implements Emailer {
+export default class SendGridEmailer implements Emailer {
     email!: BaseEmail;
 
     async SendEmail(): Promise<object> {

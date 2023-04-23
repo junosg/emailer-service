@@ -1,7 +1,6 @@
 import express from "express";
 import EmailerService from "../services/emailer.service";
-import { BaseEmail, defaultEmail } from "../models/email.model";
-import EventEmitter from "events";
+import { BaseEmail } from "../models/email.model";
 import EmailerEvent from "../bases/emailerEvent.base";
 
 export const emailerRoutes = express.Router();

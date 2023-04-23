@@ -1,6 +1,6 @@
 import { BaseEmail } from "../models/email.model";
 import { Emailer } from "../abstractions/emailer.abstract";
-import { SendGridEmailer } from "./emailers/sendGrid.emailer";
+import SendGridEmailer from "./emailers/sendGrid.emailer";
 
 export default class EmailerService {
     activeEmailer!: Emailer;
