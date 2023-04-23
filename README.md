@@ -15,9 +15,14 @@ SendDelayedEmail | /emailer/delayedEmail | Request that starts an event that sen
 StopDelayedEmail  | /emailer/stopDelayedEmail | Request that stops an event that sends an email after a delay. | `{ to: string (email) }`
 
 # Project Setup
+1. Install the dependencies.
 ```
 npm install
 ```
+2. Create a **SendGrid Account** and get an API key.
+3. Set **SENDGRID_API_KEY** environment variable value to received **SendGrid API** key.
+4. Set a sender email on your SendGrid Account.
+5. Set **SENDER_EMAIL** environment variable value to the set sender email on your SendGrid Account.
 
 ### Compiles and hot-reloads for development
 ```
