@@ -12,13 +12,13 @@ export default class SendGridEmailer implements Emailer {
         try {
             await SendGridMail.send(this.email)
             .then((response: any) => {
-                console.log({message: "Email Sent Successfully.", code: 202, response: response});
+                console.log({message: `Email Sent Successfully at ${new Date().toUTCString()}.`, code: 202, response: response});
             });
 
-            return {message: "Email Sent Successfully.", code: 202};
+            return {message: `Email Sent Successfully at ${new Date().toUTCString()}.`, code: 202};
         } catch (error) {
             console.log({error: error});
-            return {message: "Email Sending Failed.", code: 400};
+            return {message: `Email Sending Failed at ${new Date().toUTCString()}.`, code: 400};
         }
     }
 }
