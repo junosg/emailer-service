@@ -3,6 +3,7 @@ A service for sending an email after a set amount of time (in milliseconds). Thi
 
 # Dependencies
 * Express (https://expressjs.com/)
+* Nodejs (https://nodejs.org/en)
 * Typescript (https://www.typescriptlang.org/)
 * SendGrid (https://sendgrid.com/)
 * Libraries: dotenv, cors, helmet
@@ -12,3 +13,13 @@ Name | Route | Description | Payload
 | :---: | :---: | :---: | :---:
 SendDelayedEmail | /emailer/delayedEmail | Request that starts an event that sends an email after a delay. | `{ to: string (email), subject: string, text: string, html: string, delay: number }`
 StopDelayedEmail  | /emailer/stopDelayedEmail | Request that stops an event that sends an email after a delay. | `{ to: string (email) }`
+
+# Project Setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run dev
+```
