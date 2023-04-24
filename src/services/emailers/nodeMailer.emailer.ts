@@ -1,17 +1,26 @@
 import { BaseEmail } from "../../models/email.model";
 import { Emailer } from "../../abstractions/emailer.abstract";
 
-import SendGridMail from '@sendgrid/mail';
+import nodeMailer from "nodemailer";
 
-export default class SendGridEmailer implements Emailer {
-    name:string = "SendGrid";
+export default class NodeMailerEmailer implements Emailer {
+    name: string = "NodeMailer";
     email!: BaseEmail;
 
     async SendEmail(): Promise<object> {
-        SendGridMail.setApiKey(process.env.SENDGRID_API_KEY as string)
+        const mailConfig = {
+            host: 'smtp.ethereal.email',
+            port: 587,
+            auth: {
+                user: process.env.ETHEREAL_EMAIL,
+                pass: process.env.ETHEREAL_PASS
+            }
+        };
+
+        const transporter = nodeMailer.createTransport(mailConfig);
 
         try {
-            const response = await SendGridMail.send(this.email);
+            const response = await transporter.sendMail(this.email);
 
             const message = {message: `Email Sent Successfully at ${new Date().toUTCString()}.`, code: 202, response: response};
             
@@ -22,6 +31,6 @@ export default class SendGridEmailer implements Emailer {
 
             console.log(message);
             return message;
-        }
+        } 
     }
 }

@@ -1,17 +1,22 @@
 import { BaseEmail } from "../../models/email.model";
 import { Emailer } from "../../abstractions/emailer.abstract";
 
-import SendGridMail from '@sendgrid/mail';
+import Mailgun from "mailgun.js";
+import FormData from "form-data";
+import { response } from "express";
 
-export default class SendGridEmailer implements Emailer {
-    name:string = "SendGrid";
+const mailgun = new Mailgun(FormData);
+
+// Not usable for testing since free tier of Mailgun only allows one receiver email
+export default class MailgunEmailer implements Emailer {
+    name: string = "Mailgun";
     email!: BaseEmail;
 
     async SendEmail(): Promise<object> {
-        SendGridMail.setApiKey(process.env.SENDGRID_API_KEY as string)
-
         try {
-            const response = await SendGridMail.send(this.email);
+            const mailgunClient = mailgun.client({username: "api", key: process.env.MAILGUN_API_KEY as string});
+
+            const response = await mailgunClient.messages.create(process.env.MAILGUN_DOMAIN as string, this.email);
 
             const message = {message: `Email Sent Successfully at ${new Date().toUTCString()}.`, code: 202, response: response};
             
