@@ -15,12 +15,12 @@ export default class SendGridEmailer implements Emailer {
 
             const message = {message: `Email Sent Successfully at ${new Date().toUTCString()}.`, code: 202, response: response};
             
-            console.log(message);
+            console.log(message); //server logs
             return message;
         } catch (error) {
             const message = {message: `Email Sending Failed at ${new Date().toUTCString()}.`, code: 400, error: error};
 
-            console.log(message);
+            console.log(message); //server logs
             return message;
         }
     }

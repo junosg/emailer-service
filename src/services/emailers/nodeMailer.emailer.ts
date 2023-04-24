@@ -9,11 +9,10 @@ export default class NodeMailerEmailer implements Emailer {
 
     async SendEmail(): Promise<object> {
         const mailConfig = {
-            host: 'smtp.ethereal.email',
-            port: 587,
+            service: "Gmail", 
             auth: {
-                user: process.env.ETHEREAL_EMAIL,
-                pass: process.env.ETHEREAL_PASS
+                user: process.env.SENDER_EMAIL,
+                pass: process.env.NODEMAILER_PASS
             }
         };
 
@@ -24,12 +23,12 @@ export default class NodeMailerEmailer implements Emailer {
 
             const message = {message: `Email Sent Successfully at ${new Date().toUTCString()}.`, code: 202, response: response};
             
-            console.log(message);
+            console.log(message); //server logs
             return message;
         } catch (error) {
             const message = {message: `Email Sending Failed at ${new Date().toUTCString()}.`, code: 400, error: error};
 
-            console.log(message);
+            console.log(message); //server logs
             return message;
         } 
     }
