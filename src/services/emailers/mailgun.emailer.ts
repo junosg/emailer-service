@@ -3,7 +3,6 @@ import { Emailer } from "../../abstractions/emailer.abstract";
 
 import Mailgun from "mailgun.js";
 import FormData from "form-data";
-import { response } from "express";
 
 const mailgun = new Mailgun(FormData);
 
