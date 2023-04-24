@@ -7,7 +7,7 @@ export default class SendGridEmailer implements Emailer {
     name:string = "SendGrid";
     email!: BaseEmail;
 
-    async SendEmail(OnSuccess: Function, OnFail: Function): Promise<object> {
+    async SendEmail(OnSuccess: Function, OnFail: Function): Promise<Record<string, any>> {
         SendGridMail.setApiKey(process.env.SENDGRID_API_KEY as string)
 
         try {
@@ -15,7 +15,7 @@ export default class SendGridEmailer implements Emailer {
 
             return OnSuccess(response);
         } catch (error) {
-            return OnFail(error, this.email);
+            throw OnFail(error, this.email);
         }
     }
 }

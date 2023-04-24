@@ -7,7 +7,7 @@ export default class NodeMailerEmailer implements Emailer {
     name: string = "NodeMailer";
     email!: BaseEmail;
 
-    async SendEmail(OnSuccess: Function, OnFail: Function): Promise<object> {
+    async SendEmail(OnSuccess: Function, OnFail: Function): Promise<Record<string, any>> {
         const mailConfig = {
             service: "Gmail", 
             auth: {
@@ -23,7 +23,7 @@ export default class NodeMailerEmailer implements Emailer {
 
             return OnSuccess(response);
         } catch (error) {
-            return OnFail(error, this.email);
+            throw OnFail(error, this.email);
         } 
     }
 }
