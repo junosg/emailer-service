@@ -7,7 +7,7 @@ export default class NodeMailerEmailer implements Emailer {
     name: string = "NodeMailer";
     email!: BaseEmail;
 
-    async SendEmail(): Promise<object> {
+    async SendEmail(OnSuccess: Function, OnFail: Function): Promise<object> {
         const mailConfig = {
             service: "Gmail", 
             auth: {
@@ -21,15 +21,9 @@ export default class NodeMailerEmailer implements Emailer {
         try {
             const response = await transporter.sendMail(this.email);
 
-            const message = {message: `Email Sent Successfully at ${new Date().toUTCString()}.`, code: 202, response: response};
-            
-            console.log(message); //server logs
-            return message;
+            return OnSuccess(response);
         } catch (error) {
-            const message = {message: `Email Sending Failed at ${new Date().toUTCString()}.`, code: 400, error: error};
-
-            console.log(message); //server logs
-            return message;
+            return OnFail(error, this.email);
         } 
     }
 }

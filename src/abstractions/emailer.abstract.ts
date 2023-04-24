@@ -8,5 +8,5 @@ export abstract class Emailer {
         this.email = parameter;
     }
 
-    abstract SendEmail(): void;
+    abstract SendEmail(OnSuccess: Function, OnFail: Function): Promise<object>;
 }

@@ -7,21 +7,15 @@ export default class SendGridEmailer implements Emailer {
     name:string = "SendGrid";
     email!: BaseEmail;
 
-    async SendEmail(): Promise<object> {
+    async SendEmail(OnSuccess: Function, OnFail: Function): Promise<object> {
         SendGridMail.setApiKey(process.env.SENDGRID_API_KEY as string)
 
         try {
             const response = await SendGridMail.send(this.email);
 
-            const message = {message: `Email Sent Successfully at ${new Date().toUTCString()}.`, code: 202, response: response};
-            
-            console.log(message); //server logs
-            return message;
+            return OnSuccess(response);
         } catch (error) {
-            const message = {message: `Email Sending Failed at ${new Date().toUTCString()}.`, code: 400, error: error};
-
-            console.log(message); //server logs
-            return message;
+            return OnFail(error, this.email);
         }
     }
 }

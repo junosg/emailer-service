@@ -13,9 +13,10 @@ emailerRoutes.post('/delayedEmail/', async function(req, res, next) {
     const email: BaseEmail = req.body;
     email.from = process.env.SENDER_EMAIL as string;
 
+    console.log(email);
+
     emailerEvent.handle(() => {
-        emailerService.activeEmailer.email = email;
-        emailerService.activeEmailer.SendEmail();
+        emailerService.SendEmail(email);
     }, req.body.delay||defaultDelay);
 
     emailerEvent.start();
