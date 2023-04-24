@@ -1,14 +1,12 @@
 import { BaseEmail } from "../models/email.model";
 import { Emailer } from "../abstractions/emailer.abstract";
 import SendGridEmailer from "./emailers/sendGrid.emailer";
-import MailgunEmailer from "./emailers/mailGun.emailer";
 import NodeMailerEmailer from "./emailers/nodeMailer.emailer";
 
 export default class EmailerService {
     activeEmailer!: Emailer;
     emailers: object = {
         SG: new SendGridEmailer,
-        MG: new MailgunEmailer,
         NM: new NodeMailerEmailer
     }
 
