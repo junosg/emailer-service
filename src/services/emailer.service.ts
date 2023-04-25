@@ -38,7 +38,7 @@ export default class EmailerService {
                 var newEmailerName = Object.keys(this.emailers).filter((key) => key != activeEmailer.name)[0];
                 activeEmailer = this.emailers[newEmailerName];
     
-                this.Handler(activeEmailer, email, tryCount);
+                this.Handler(activeEmailer, email, maxTries, tryCount);
             }
         });
     }
