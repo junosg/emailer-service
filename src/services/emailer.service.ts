@@ -10,14 +10,37 @@ export default class EmailerService {
         sendGrid: new SendGridEmailer,
         nodeMailer: new NodeMailerEmailer
     };
-    activeEmailer!: Emailer;
-    failCount: number;
-    maxFailCount: number;
+    defaultEmailer!: Emailer;
 
     constructor (){
-        this.activeEmailer = this.emailers.sendGrid as Emailer;
-        this.failCount = 0;
-        this.maxFailCount = 3;
+        this.defaultEmailer = this.emailers.sendGrid;
+    }
+
+    SendEmail(email: BaseEmail) {
+        var activeEmailer = this.defaultEmailer ;
+
+        this.Handler(activeEmailer, email);
+    }
+
+    Handler(activeEmailer: Emailer, email: BaseEmail, maxTries: number = 3, tryCount: number = 0) {
+        var maxTries = maxTries;
+        var tryCount = tryCount;
+
+        activeEmailer.email = email;
+    
+        activeEmailer.SendEmail(this.OnSuccess, this.OnFail)
+        .then((response: Record<string, any>) => {
+        })
+        .catch((error: Record<string, any>) => {
+            tryCount++;
+
+            if (tryCount < maxTries) {
+                var newEmailerName = Object.keys(this.emailers).filter((key) => key != activeEmailer.name)[0];
+                activeEmailer = this.emailers[newEmailerName];
+    
+                this.Handler(activeEmailer, email, tryCount);
+            }
+        });
     }
 
     OnSuccess(response: any): Record<string, any> {
@@ -27,26 +50,10 @@ export default class EmailerService {
         return message;
     }
 
-    OnFail(error: any, email: BaseEmail): Record<string, any> {
-        const message = {message: `Email Sending Failed at ${new Date().toUTCString()}.`, code: error.code??400, error: error, email: email};
+    OnFail(error: any): Record<string, any> {
+        const message = {message: `Email Sending Failed at ${new Date().toUTCString()}.`, code: error.code??400, error: error, email: error.email};
 
         console.error(message); //server logs
         return message;
-    }
-
-    SendEmail(email: BaseEmail) {
-        this.activeEmailer.email = email;
-
-        this.activeEmailer.SendEmail(this.OnSuccess, this.OnFail)
-        .then((response: Record<string, any>) => {
-            this.failCount = 0;
-        })
-        .catch((error: Record<string, any>) => {
-            if (this.failCount <= this.maxFailCount) {
-                this.failCount++;
-                this.activeEmailer = this.emailers.nodeMailer; //Switch to NodeMailer on fail
-                this.SendEmail(error.email);
-            }
-        });
     }
 }

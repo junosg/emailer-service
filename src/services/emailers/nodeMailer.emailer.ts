@@ -4,7 +4,7 @@ import { Emailer } from "../../abstractions/emailer.abstract";
 import nodeMailer from "nodemailer";
 
 export default class NodeMailerEmailer implements Emailer {
-    name: string = "NodeMailer";
+    name: string = "nodeMailer";
     email!: BaseEmail;
 
     async SendEmail(OnSuccess: Function, OnFail: Function): Promise<Record<string, any>> {
@@ -23,6 +23,8 @@ export default class NodeMailerEmailer implements Emailer {
 
             return OnSuccess(response);
         } catch (error) {
+            error.email = this.email;
+
             throw OnFail(error, this.email);
         } 
     }

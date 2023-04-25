@@ -4,7 +4,7 @@ import { Emailer } from "../../abstractions/emailer.abstract";
 import SendGridMail from '@sendgrid/mail';
 
 export default class SendGridEmailer implements Emailer {
-    name:string = "SendGrid";
+    name:string = "sendGrid";
     email!: BaseEmail;
 
     async SendEmail(OnSuccess: Function, OnFail: Function): Promise<Record<string, any>> {
@@ -15,7 +15,9 @@ export default class SendGridEmailer implements Emailer {
 
             return OnSuccess(response);
         } catch (error) {
-            throw OnFail(error, this.email);
+            error.email = this.email;
+
+            throw OnFail(error);
         }
     }
 }
