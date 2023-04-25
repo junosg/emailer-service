@@ -1,32 +1,17 @@
 import express from "express";
-import EmailerService from "../services/emailer.service";
-import { BaseEmail } from "../models/email.model";
-import EmailerEvent from "../bases/emailerEvent.base";
+import EmailerController from "../controllers/emailer.controller";
 
 export const emailerRoutes = express.Router();
-const emailerService = new EmailerService;
-const emailerEvent = new EmailerEvent;
+const emailerController = new EmailerController;
 
 emailerRoutes.post('/delayedEmail/', async function(req, res, next) {
-    const defaultDelay = 600000;
-    emailerEvent.eventName = `Abandon(${req.body.to})`;
-    const email: BaseEmail = req.body;
-    email.from = process.env.SENDER_EMAIL as string;
-
-    console.log(email);
-
-    emailerEvent.handle(() => {
-        emailerService.SendEmail(email);
-    }, req.body.delay||defaultDelay);
-
-    emailerEvent.start();
+    emailerController.SendDelayedEmail(req.body);
 
     res.json({message: "Abandon event started."})
 });
 
 emailerRoutes.post('/stopDelayedEmail/', async function(req, res, next) {
-    emailerEvent.eventName = `Abandon(${req.body.email})`;
-    emailerEvent.suspend(() => { console.log(`${emailerEvent.eventName} Stopped.`) });
+    emailerController.StopDelayedEmail(req.body);
 
     res.json({message: "Abandon event stopped."})
 });

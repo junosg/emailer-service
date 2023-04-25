@@ -1,5 +1,5 @@
 import { BaseEmail } from "../../models/email.model";
-import { Emailer } from "../../abstractions/emailer.abstract";
+import Emailer from "../../abstractions/emailer.abstract";
 
 import nodeMailer from "nodemailer";
 

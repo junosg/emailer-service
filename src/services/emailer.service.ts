@@ -1,9 +1,7 @@
 import { BaseEmail } from "../models/email.model";
-import { Emailer } from "../abstractions/emailer.abstract";
+import Emailer from "../abstractions/emailer.abstract";
 import SendGridEmailer from "./emailers/sendGrid.emailer";
 import NodeMailerEmailer from "./emailers/nodeMailer.emailer";
-import { response } from "express";
-import { error } from "console";
 
 export default class EmailerService {
     emailers: Record<string, Emailer> = {
@@ -30,8 +28,10 @@ export default class EmailerService {
     
         activeEmailer.SendEmail(this.OnSuccess, this.OnFail)
         .then((response: Record<string, any>) => {
+            console.log(response); //server logs
         })
         .catch((error: Record<string, any>) => {
+            console.error(error); //server logs
             tryCount++;
 
             if (tryCount < maxTries) {
@@ -46,14 +46,12 @@ export default class EmailerService {
     OnSuccess(response: any): Record<string, any> {
         const message = {message: `Email Sent Successfully at ${new Date().toUTCString()}.`, code: 202, response: response};
 
-        console.log(message); //server logs
         return message;
     }
 
     OnFail(error: any): Record<string, any> {
         const message = {message: `Email Sending Failed at ${new Date().toUTCString()}.`, code: error.code??400, error: error, email: error.email};
 
-        console.error(message); //server logs
         return message;
     }
 }
