@@ -1,5 +1,5 @@
 # emailer-service
-A service for sending an email after a set amount of time (in milliseconds). This service currently uses **SendGrid API** to send emails as its default but switches to **Nodemailer API** once the max number of request per day is reach. The free **SendGrid API** has a max request of 100 per day while the free **Nodemailer API** has 500. The email used to send emails is **dummytesteruser3@gmail.com**.
+A service for sending an email after a set amount of time (in milliseconds). This service currently uses **SendGrid API** to send emails as its default but uses **Nodemailer API** incase the previously mentioned API fails. The free **SendGrid API** has a max request of 100 per day while the free **Nodemailer API** has 500. The email used to send emails is **dummytesteruser3@gmail.com**.
 
 # Dependencies
 * Express (https://expressjs.com/)
