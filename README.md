@@ -6,13 +6,14 @@ A service for sending an email after a set amount of time (in milliseconds). Thi
 * Nodejs (https://nodejs.org/en)
 * Typescript (https://www.typescriptlang.org/)
 * SendGrid (https://sendgrid.com/)
-* Libraries: dotenv, cors, helmet, nodemailer
+* Nodemailer (https://nodemailer.com/about/)
+* Libraries: dotenv, cors, helmet
 
 # API Routes
 Name | Route | Description | Payload
 | :---: | :---: | :---: | :---:
 SendDelayedEmail | /emailer/delayedEmail | Request that starts an event that sends an email after a delay. | `{ to: string (email), subject: string, text: string, html: string, delay: number }`
-StopDelayedEmail  | /emailer/stopDelayedEmail | Request that stops an event that sends an email after a delay. | `{ to: string (email) }`
+StopDelayedEmail  | /emailer/stopDelayedEmail | Request that stops an event that sends an email after a delay. | `{ email: string (email) }`
 
 # Project Setup
 1. Install the dependencies.
