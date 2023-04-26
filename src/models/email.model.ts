@@ -6,8 +6,8 @@ export interface BaseEmail {
     html: string
 }
 
-export interface Email {
-    id: number|string;
+export interface Email extends BaseEmail {
+    id: number|string
 }
 
 export const defaultEmail: BaseEmail = {

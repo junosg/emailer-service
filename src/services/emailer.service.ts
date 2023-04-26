@@ -15,7 +15,7 @@ export default class EmailerService {
     }
 
     SendEmail(email: BaseEmail) {
-        var activeEmailer = this.defaultEmailer ;
+        var activeEmailer = this.defaultEmailer;
 
         this.Handler(activeEmailer, email);
     }
@@ -25,7 +25,7 @@ export default class EmailerService {
         var tryCount = tryCount;
 
         activeEmailer.email = email;
-    
+
         activeEmailer.SendEmail(this.OnSuccess, this.OnFail)
         .then((response: Record<string, any>) => {
             console.log(response); //server logs

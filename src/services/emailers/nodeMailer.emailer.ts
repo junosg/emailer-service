@@ -9,7 +9,12 @@ export default class NodeMailerEmailer implements Emailer {
 
     async SendEmail(OnSuccess: Function, OnFail: Function): Promise<Record<string, any>> {
         const mailConfig = {
-            service: "Gmail", 
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false, 
+            requireTLS: true,
+            logger: true,
+            debug: true,
             auth: {
                 user: process.env.SENDER_EMAIL,
                 pass: process.env.NODEMAILER_PASS
